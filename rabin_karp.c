@@ -23,12 +23,12 @@ void update_pos(int p) {
 
 void* rabin_karp_worker(void *thread_id) {
 
-    int id;
+    long id;
     int start, end;
     int i, patt_len;
     long long patt_hash = 0, str_hash = 0, pow = 0;
 
-    id = *((int *) thread_id);
+    id = (long) thread_id;
 
     start = id * N / THREADS;
     end = (id + 1) * N / THREADS;
@@ -73,7 +73,8 @@ void* rabin_karp_worker(void *thread_id) {
 }
 
 int rabin_karp(const char *s, int n, const char *p) {
-    int id, status;
+    int status;
+    long id;
 
     str = s;
     patt = p;
@@ -87,7 +88,7 @@ int rabin_karp(const char *s, int n, const char *p) {
 
     for (id = 0; id < THREADS; id++) {
         status = pthread_create(&threads[id], NULL, rabin_karp_worker, 
-                (void*) &id);
+                (void*) id);
         if (status) {
             fprintf(stderr, "error %d in pthread_create\n", status);
         }

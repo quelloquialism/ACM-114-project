@@ -25,10 +25,10 @@ long get_next() {
 }
 void* sieve_worker(void *thread_id) {
 
-    int id;
+    long id;
     long i, j;
 
-    id = *((int *) thread_id);
+    id = (long) thread_id;
 
     for (i = get_next(); i < sqrt(sieve_size); i = get_next()) {
         if (sieve[i]) {
@@ -41,7 +41,8 @@ void* sieve_worker(void *thread_id) {
 }
 
 void sieve_init(long size) {
-    int id, status;
+    long id;
+    int status;
     pthread_t threads[THREADS];
 
     pthread_mutex_init(&mutex, NULL);
@@ -51,7 +52,7 @@ void sieve_init(long size) {
     memset(sieve, 0, sieve_size);
     
     for (id = 0; id < THREADS; id++) {
-        status = pthread_create(&threads[id], NULL, sieve_worker, (void*) &id);
+        status = pthread_create(&threads[id], NULL, sieve_worker, (void*) id);
         if (status) {
             fprintf(stderr, "error %d in pthread_create\n", status);
         }

@@ -51,20 +51,14 @@ void * mult_worker(void * arg) {
   int n2 = task->n2;  
   pthread_mutex_t lock = task->lock;
 
-  cout << "start: " << id << endl;
+//  cout << "start: " << id << endl;
 
-  //cout << m1 << "   " << n1 << "  " << m2 << "  " << n2 << endl;
-  //cout << workers << endl;
   for (int i = id; i < m1; i +=workers) {
-    //cout << "id: " << id << endl;
     for (int j = 0; j < n2; j++) {
       double temp = 0;
       // m2 and n1 are equal
-      //cout << "here" << endl;
       for (int k = 0; k < m2; k++) {
         pthread_mutex_lock(&lock);
- //       cout << "i,j,k" << i << " " << j << " " << k << endl;
- //       cout << "vals" << mat1[i*n1 + k] << "    " << mat2[k*n2 + j] << endl;
         pthread_mutex_unlock(&lock);
         temp += mat1[i*n1 + k] * mat2[k*n2 + j];
       }
@@ -94,17 +88,23 @@ void masterThread(double *mat1, double *mat2, double *res, int m1, int m2, int n
     pthread_join(context[tid].descriptor, 0);
   }
 
-  std::cout << " --- done." << std::endl;
+//  std::cout << " --- done." << std::endl;
 
 }
 
 int main(int argc, char *argv[]) {
-  int m1 = 4;
-  int n1 = 3;
-  int m2 = 3;
-  int n2 = 2;
-  double mat1[12] = {14, 9, 3, 2, 11, 15, 0, 12, 17, 5, 2, 3};
-  double mat2[6] = {12, 25, 9, 10, 8, 5};
+  int m1, n1, m2, n2;
+  cin >> m1 >> n1;
+  double mat1[m1 * n1];
+  for (int i = 0; i < m1 * n1; i++) {
+    cin >> mat1[i];
+  }
+  cin >> m2 >> n2;
+  double mat2[m2 * n2];
+  for (int i = 0; i < m2 * n2; i++) {
+    cin >> mat2[i];
+  }
+
   int workers = 4;
   double res[m1 * n2];
 

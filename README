@@ -1,0 +1,55 @@
+ACM 114 Project
+A Threaded Algorithms Library for Competitive Programming Contests
+Written by Emil Ibrishimov, Stasja Stanisic, Nathan Watson
+
+Our project is broken up into categories of algorithms. All parallelism is done
+using the Pthreads architecture in C/C++.
+
+Brief overview of the project contents:
+
+Graph Theory (written by Nathan Watson):
+ - Dijkstra's single-source shortest path algorithm (min-heap implementation).
+   Parallelized by allowing different threads to process elements off of the
+   priority queue in parallel.
+
+ - Johnson's all-pairs shortest path algorithm, sans the initial reweighting
+   step. This is essentially running Dijkstra from all possible sources to
+   compute the shortest path between all pairs. Parallelized by allowing
+   different threads to run Dijkstra from different sources at the same time.
+
+ - Prim's minimum spanning tree algorithm (min-heap implementation).
+   Parallelized by allowing different threads to consider new edges off of the
+   priority queue in parallel.
+
+
+Matrix (written by Stasja Stanisic):
+ - Matrix multiplication (naive O(n^3) algorithm). Parallelized by allowing
+   different threads to compute results for each row at the same time.
+
+
+Number Theory (written by Emil Ibrishimov and Nathan Watson):
+ - Sieve of Eratosthenes for prime number search. Parallelized by allowing each
+   thread to consider candidate primes and mark off their multiples in parallel.
+
+ - Euclidean algorithm for greatest common divisor of N numbers. Parallelized by
+   allowing each thread to compute pairwise GCDs, then combining results.
+
+ - Deterministic variant of the Miller-Rabin primality testing algorithm. Uses a
+   fixed set of witnesses guaranteed to work for all integers representable with
+   32 bits. Parallelized by allowing each thread to test the input with a
+   different witness.
+
+
+Sorting (written by Stasja Stanisic):
+ - Bitonic (in-place) merge sort. Parallelized by allowing each thread to
+   consider different portions of the array to sort at once.
+
+ - Classical merge sort. Various parallelism strategies; consult the README in
+   in the sorting directory for more information.
+
+
+String (written by Emil Ibrishimov):
+ - Rabin-Karp algorithm for string search. Parallelized by segmenting the
+   string to be searched and allowing each thread to examine a portion of the
+   string independently.
+
